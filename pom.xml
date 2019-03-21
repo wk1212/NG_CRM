@@ -6,7 +6,11 @@
 
     <groupId>com.ng</groupId>
     <artifactId>NG_CRM</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>ngcrm-web</module>
+    </modules>
 
 
 </project>
