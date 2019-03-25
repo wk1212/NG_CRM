@@ -6,6 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ngcrm-dao" />
+        <module name="ngcrm-model" />
+        <module name="ngcrm-service" />
+        <module name="ngcrm-service-api" />
         <module name="ngcrmweb" />
       </profile>
     </annotationProcessing>

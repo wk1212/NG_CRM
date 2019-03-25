@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>增加权限界面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="media/layui/css/layui.css" media="all">
+    <script src="media/js/jquery.min.js"></script>
+    <script src="media/layui/layui.js"></script>
+
+</head>
+<body>
+
+<form id="fm1" class="layui-form " >
+    <div class="layui-form-item"  >
+        <label class="layui-form-label">序号：</label>
+        <div class="layui-input-inline">
+            <input id="id" name="id" class="layui-input" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item"  >
+        <label class="layui-form-label">名称：</label>
+        <div class="layui-input-inline">
+            <input id="title" name="title" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item"  >
+        <label class="layui-form-label">图标：</label>
+        <div class="layui-input-inline">
+            <input id="aicon" name="aicon" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">路径：</label>
+        <div class="layui-input-inline">
+            <input id="aurl" name="aurl" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">级别：</label>
+        <div class="layui-input-inline">
+            <input id="one" type="radio" name="pid" value="0" lay-filter="level"  title="一级菜单" checked>
+            <input id="two" type="radio" name="pid" value="2" lay-filter="level"  title="权限" checked>
+            <input id="three" type="radio" name="pid" value="-1" lay-filter="level"   title="二级菜单" >
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="dvl1" style="display: none" >
+        <label class="layui-form-label">上级路径：</label>
+        <div class="layui-input-inline">
+            <select id="spid" name="parentId"  >
+
+            </select>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn"  lay-submit lay-filter="form1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+
+
+
+    layui.use('form', function(){
+
+        var form = layui.form;
+
+        $.ajax({
+            //查询所有权限。
+            url:'queryallauthority.do',
+            type:'post',
+            success:function (res) {
+                var arr=res.data
+
+                var str="";
+                for (var i=0;i<arr.length;i++){
+                    if (arr[i].type==1&&arr[i].parentId==0){
+                        str+= "<option value='"+arr[i].id+"'>"+arr[i].title+"</option>";
+                    }
+                }
+                $("#spid").html(str);
+                form.render()
+            }
+
+        });
+
+        //ajax查询数据库 查询所有角色追加到下拉框里面  注意最后面加一句  form.render() 重新渲染表格。
+        form.on('submit(form1)', function(data){
+            //ajax提交表单 更改密码
+            $.ajax({
+                url:'updateAuthority.do',
+                data:$("#fm1").serialize(),//表单序列化，可以快速地获取表单的全部属性值
+                type:'post',
+                success:function (obj) {
+                    if(obj.code==0){
+                        layer.msg('编辑成功',{icon:6});
+                        window.parent.location.href='index.html';
+                    }
+                }
+            });
+
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        form.on('radio(level)',function (obj) {
+            if(obj.value==-1){//选择了二级菜单
+                $("#dvl1").show();
+            }
+            else if(obj.value==0){
+                $("#dvl1").hide();
+            }else if(obj.value==2){//2表示具体的url限制  比如增加一个用户      type=2   需要选择id
+                $("#dvl1").show();
+            }
+
+
+        })
+        //获取请求参数id
+        var url=window.location.href;
+        //截取需要的数据 .html?rid="+data.id;
+        var rid=url.substring(url.indexOf('rid')+4)
+
+        //赋值
+        $("#id").val(rid);
+        //ajax 根据rid查询数据
+        $.ajax({
+            url:'queryAuthorityById.do',
+            data:{"id":rid},
+            type:'post',
+            dataType:'json',
+            cache:false,
+            success:function (obj) {
+
+                //赋值
+                $("#title").val(obj.title);
+                $("#aicon").val(obj.aicon)
+                $("#aurl").val(obj.aurl)
+                var id_=obj.id;
+
+                if (obj.parentId==0&&obj.type==1){
+                    $("#one").prop("checked",true)
+                }else if (obj.parentId!=0&&obj.type==1){
+                    $("#three").prop("checked",true);
+                    $("#dvl1").show();
+                    $("#spid").find("option[value=id_]").attr("selected",true);
+                } else if (obj.parentId!=0&&obj.type!=1) {
+                    $("#two").prop("checked",true);
+                    $("#dvl1").show();
+                    $("#spid").find("option[value=id_]").attr("selected",true);
+                }
+                form.render()
+            }
+
+        })
+
+    })
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
