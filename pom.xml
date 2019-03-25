@@ -14,6 +14,7 @@
         <module>ngcrm-service</module>
         <module>ngcrm-service-api</module>
         <module>ngcrm-dao</module>
+        <module>ngcrm-commons</module>
     </modules>
 
     <dependencies>
