@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oa.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.ngcrm.model.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result column="no" property="no" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="flag" property="flag" jdbcType="INTEGER" />
+        <result column="headphoto" property="headphoto" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+      id, no, name, password,flag, headphoto
+  </sql>
+
+    <select id="queryUserByNameAndPwd" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user
+        where
+        no=#{no}
+        and
+        password=#{pass}
+    </select>
+    <select id="queryMenu" parameterType="java.lang.Integer" resultType="TAuthorityVO">
+        select a.* from t_authority a
+
+        left join t_roleauthority as  ra  on a.id=ra.aid
+
+
+        left join   t_userrole as ul   on ul.rid=ra.rid
+
+        where ul.uid =#{uid} and a.type='1' and a.parentId='0'  group by a.id
+    </select>
+    <select id="queryChildMenu" parameterType="int" resultType="TAuthorityVO">
+        select * from t_authority where parentId=#{pid} and  type=1
+  </select>
+    <update id="updateUser" parameterType="user">
+        update  t_user
+        <set>
+            /* ( id, no, name, password,flag, headphoto)*/
+            <if test="id!=null">
+                id=#{id},
+            </if>
+            <if test="no!=null">
+                no=#{no},
+            </if>
+            <if test="id!=null">
+                name=#{name},
+            </if>
+            <if test="id!=null">
+                password =#{password},
+            </if>
+            <if test="id!=null">
+                flag=#{flag},
+            </if>
+            <if test="id!=null">
+                headphoto =#{headphoto},
+            </if>
+
+        </set>
+       where id=#{id}
+    </update>
+
+    <resultMap id="RoleMap" type="Role">
+        <id column="rid" property="id"/>
+        <result property="info" column="info"/>
+        <result property="name" column="rname"/>
+        <result property="parentId" column="parentId"/>
+    </resultMap>
+
+
+    <resultMap id="UserAndRoleMap2" type="com.ngcrm.vo.UserRoleVo" extends="BaseResultMap">
+        <collection property="roleList" column="id" ofType="Role" resultMap="RoleMap"/>
+    </resultMap>
+
+
+    <select id="queryUserWithRoleMsg" resultMap="UserAndRoleMap2">
+     select u.*,r.id as rid ,r.info ,r.name as rname,r.parentId from
+    (select * from t_user
+     limit #{begin},#{limit}
+    )
+    as u left  join t_userrole as ur on u.id=ur.uid
+    left join  t_role as r on r.id=ur.rid
+
+    where 1=1
+    <if test="no!=null and no!=''">
+        and no like "%" #{no}"%"
+    </if>
+    <if test="flag!=null and flag!=''">
+        and flag =#{flag}
+    </if>
+
+    </select>
+    <select id="queryUserById" resultType="user">
+        select  * from t_user  where id=#{id}
+    </select>
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete  from t_user where id=#{id}
+    </delete>
+    <delete id="deleteUserMerberShip" parameterType="java.lang.Integer">
+        delete  from t_userrole where uid=#{id}
+    </delete>
+    <insert id="insertBatchByAndUidRids">
+
+
+        insert into t_userrole (uid,rid) values
+
+        <foreach collection="list" separator="," item="rid">
+            (#{id},#{rid})
+        </foreach>
+
+    </insert>
+    <insert id="addUser" parameterType="user">
+        insert into t_user( id, no, name, password,flag, headphoto)
+        values (#{id},#{no},#{name},#{password},#{flag},#{headphoto})
+    </insert>
+</mapper>

@@ -11,7 +11,7 @@
         <module name="ngcrm-model" />
         <module name="ngcrm-service" />
         <module name="ngcrm-service-api" />
-        <module name="ngcrmweb" />
+        <module name="ngcrm-web" />
       </profile>
     </annotationProcessing>
   </component>
