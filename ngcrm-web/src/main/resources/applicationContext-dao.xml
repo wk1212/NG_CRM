@@ -8,7 +8,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
        
        <!-- 开启组件扫描 -->
-       <context:component-scan base-package="com.oa.mapper"></context:component-scan>
+       <context:component-scan base-package="com.ngcrm.mapper"></context:component-scan>
        <!-- 加载properties配置文件 -->
        <context:property-placeholder location="classpath:*.properties"/>
        
@@ -63,10 +63,10 @@
 			<!-- 注入数据源 -->
 			<property name="dataSource" ref="dataSource"></property>
 			<!-- 配置别名:类名不区分大小写 -->
-			<property name="typeAliasesPackage" value="com.oa.model"></property>
+			<property name="typeAliasesPackage" value="com.ngcrm.model"></property>
 			
 			<!-- 引入sql映射文件 -->
-			<property name="mapperLocations" value="classpath:com/oa/mapper/*.xml"></property>
+			<property name="mapperLocations" value="classpath:com/ngcrm/mapper/*.xml"></property>
 			
 				<!-- 配置mybatis分页插件 -->
        		<property name="plugins">
@@ -102,7 +102,7 @@
 		<!-- 配置Mapper接口扫描 :id默认是接口名首字母小写 -->
       <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
       <!-- 配置要扫描的包 -->
-      	<property name="basePackage" value="com.oa.mapper"></property>
+      	<property name="basePackage" value="com.ngcrm.mapper"></property>
       	<!-- 如果只有一个数据源  可以不用配置  推荐配置注入sqlSessionFactory-->
       	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
       	</bean>

@@ -15,6 +15,7 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public User login(String no, String pass) {
+        System.out.println(no+"===="+pass);
         return userMapper.queryUserByNameAndPwd(no,EncrypUtil2.md5Pass(pass));
     }
 }

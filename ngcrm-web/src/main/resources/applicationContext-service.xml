@@ -15,7 +15,7 @@
        
        <!-- 开发SpringMvc的配置文件 -->
        <!-- 开启组件扫描 -->
-       <context:component-scan base-package="com.oa.service"></context:component-scan>
+       <context:component-scan base-package="com.ngcrm.service"></context:component-scan>
        
        	<!-- 配置事务 -->
        	<!-- 配置平台事务管理器:org.springframework.jdbc.datasource.DataSourceTransactionManager(jdbc/Mybatis) -->
@@ -53,7 +53,7 @@
        	<!-- 配置aop -->
        	
        	<aop:config>
-	       	<aop:pointcut expression="execution( public * com.oa..service.*.*(..))" id="cut"/>
+	       	<aop:pointcut expression="execution( public * com.ngcrm..service.*.*(..))" id="cut"/>
 	       	<aop:advisor advice-ref="txAdvice" pointcut-ref="cut"/>
        	</aop:config>
       
