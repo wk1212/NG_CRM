@@ -70,4 +70,50 @@
         <result property="name" column="rname"/>
         <result property="parentId" column="parentId"/>
     </resultMap>
+
+    <resultMap id="UserAndRoleMap2" type="com.ngcrm.vo.UserRoleVo" extends="BaseResultMap">
+        <collection property="roleList" column="id" ofType="Role" resultMap="RoleMap"/>
+    </resultMap>
+
+
+    <select id="queryUserWithRoleMsg" resultMap="UserAndRoleMap2">
+        select u.*,r.id as rid ,r.info ,r.name as rname,r.parentId from
+        (select * from t_user
+        limit #{begin},#{limit}
+        )
+        as u left  join t_userrole as ur on u.id=ur.uid
+        left join  t_role as r on r.id=ur.rid
+
+        where 1=1
+        <if test="no!=null and no!=''">
+            and no like "%" #{no}"%"
+        </if>
+        <if test="flag!=null and flag!=''">
+            and flag =#{flag}
+        </if>
+
+    </select>
+    <select id="queryUserById" resultType="user">
+        select  * from t_user  where id=#{id}
+    </select>
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete  from t_user where id=#{id}
+    </delete>
+    <delete id="deleteUserMerberShip" parameterType="java.lang.Integer">
+        delete  from t_userrole where uid=#{id}
+    </delete>
+    <insert id="insertBatchByAndUidRids">
+
+
+        insert into t_userrole (uid,rid) values
+
+        <foreach collection="list" separator="," item="rid">
+            (#{id},#{rid})
+        </foreach>
+
+    </insert>
+    <insert id="addUser" parameterType="user">
+        insert into t_user( id, no, name, password,flag, headphoto)
+        values (#{id},#{no},#{name},#{password},#{flag},#{headphoto})
+    </insert>
 </mapper>

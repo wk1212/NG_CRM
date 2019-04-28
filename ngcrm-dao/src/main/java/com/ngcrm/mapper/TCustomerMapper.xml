@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ngcrm.mapper.TCustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.ngcrm.model.TCustomer" >
+    <id column="cno" property="cno" jdbcType="INTEGER" />
+    <result column="cname" property="cname" jdbcType="VARCHAR" />
+    <result column="ctel" property="ctel" jdbcType="VARCHAR" />
+    <result column="cdesc" property="cdesc" jdbcType="VARCHAR" />
+    <result column="ccre" property="ccre" jdbcType="TIMESTAMP" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="cnation" property="cnation" jdbcType="VARCHAR" />
+    <result column="caddress" property="caddress" jdbcType="VARCHAR" />
+    <result column="cemail" property="cemail" jdbcType="VARCHAR" />
+    <result column="cincome" property="cincome" jdbcType="VARCHAR" />
+    <result column="ctype" property="ctype" jdbcType="VARCHAR" />
+    <result column="cempnumber" property="cempnumber" jdbcType="INTEGER" />
+    <result column="cstatus" property="cstatus" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cno, cname, ctel, cdesc, ccre, ctime, cnation, caddress, cemail, cincome, ctype, 
+    cempnumber, cstatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ngcrm.model.TCustomerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer
+    where cno = #{cno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_customer
+    where cno = #{cno,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ngcrm.model.TCustomerExample" >
+    delete from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ngcrm.model.TCustomer" >
+    insert into t_customer (cno, cname, ctel, 
+      cdesc, ccre, ctime, 
+      cnation, caddress, cemail, 
+      cincome, ctype, cempnumber, 
+      cstatus)
+    values (#{cno,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{ctel,jdbcType=VARCHAR}, 
+      #{cdesc,jdbcType=VARCHAR}, #{ccre,jdbcType=TIMESTAMP}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{cnation,jdbcType=VARCHAR}, #{caddress,jdbcType=VARCHAR}, #{cemail,jdbcType=VARCHAR}, 
+      #{cincome,jdbcType=VARCHAR}, #{ctype,jdbcType=VARCHAR}, #{cempnumber,jdbcType=INTEGER}, 
+      #{cstatus,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ngcrm.model.TCustomer" >
+    insert into t_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cno != null" >
+        cno,
+      </if>
+      <if test="cname != null" >
+        cname,
+      </if>
+      <if test="ctel != null" >
+        ctel,
+      </if>
+      <if test="cdesc != null" >
+        cdesc,
+      </if>
+      <if test="ccre != null" >
+        ccre,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="cnation != null" >
+        cnation,
+      </if>
+      <if test="caddress != null" >
+        caddress,
+      </if>
+      <if test="cemail != null" >
+        cemail,
+      </if>
+      <if test="cincome != null" >
+        cincome,
+      </if>
+      <if test="ctype != null" >
+        ctype,
+      </if>
+      <if test="cempnumber != null" >
+        cempnumber,
+      </if>
+      <if test="cstatus != null" >
+        cstatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cno != null" >
+        #{cno,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctel != null" >
+        #{ctel,jdbcType=VARCHAR},
+      </if>
+      <if test="cdesc != null" >
+        #{cdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="ccre != null" >
+        #{ccre,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cnation != null" >
+        #{cnation,jdbcType=VARCHAR},
+      </if>
+      <if test="caddress != null" >
+        #{caddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cemail != null" >
+        #{cemail,jdbcType=VARCHAR},
+      </if>
+      <if test="cincome != null" >
+        #{cincome,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="cempnumber != null" >
+        #{cempnumber,jdbcType=INTEGER},
+      </if>
+      <if test="cstatus != null" >
+        #{cstatus,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ngcrm.model.TCustomerExample" resultType="java.lang.Integer" >
+    select count(*) from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_customer
+    <set >
+      <if test="record.cno != null" >
+        cno = #{record.cno,jdbcType=INTEGER},
+      </if>
+      <if test="record.cname != null" >
+        cname = #{record.cname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctel != null" >
+        ctel = #{record.ctel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cdesc != null" >
+        cdesc = #{record.cdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccre != null" >
+        ccre = #{record.ccre,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cnation != null" >
+        cnation = #{record.cnation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caddress != null" >
+        caddress = #{record.caddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cemail != null" >
+        cemail = #{record.cemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cincome != null" >
+        cincome = #{record.cincome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctype != null" >
+        ctype = #{record.ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cempnumber != null" >
+        cempnumber = #{record.cempnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.cstatus != null" >
+        cstatus = #{record.cstatus,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_customer
+    set cno = #{record.cno,jdbcType=INTEGER},
+      cname = #{record.cname,jdbcType=VARCHAR},
+      ctel = #{record.ctel,jdbcType=VARCHAR},
+      cdesc = #{record.cdesc,jdbcType=VARCHAR},
+      ccre = #{record.ccre,jdbcType=TIMESTAMP},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      cnation = #{record.cnation,jdbcType=VARCHAR},
+      caddress = #{record.caddress,jdbcType=VARCHAR},
+      cemail = #{record.cemail,jdbcType=VARCHAR},
+      cincome = #{record.cincome,jdbcType=VARCHAR},
+      ctype = #{record.ctype,jdbcType=VARCHAR},
+      cempnumber = #{record.cempnumber,jdbcType=INTEGER},
+      cstatus = #{record.cstatus,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ngcrm.model.TCustomer" >
+    update t_customer
+    <set >
+      <if test="cname != null" >
+        cname = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctel != null" >
+        ctel = #{ctel,jdbcType=VARCHAR},
+      </if>
+      <if test="cdesc != null" >
+        cdesc = #{cdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="ccre != null" >
+        ccre = #{ccre,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cnation != null" >
+        cnation = #{cnation,jdbcType=VARCHAR},
+      </if>
+      <if test="caddress != null" >
+        caddress = #{caddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cemail != null" >
+        cemail = #{cemail,jdbcType=VARCHAR},
+      </if>
+      <if test="cincome != null" >
+        cincome = #{cincome,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null" >
+        ctype = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="cempnumber != null" >
+        cempnumber = #{cempnumber,jdbcType=INTEGER},
+      </if>
+      <if test="cstatus != null" >
+        cstatus = #{cstatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where cno = #{cno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ngcrm.model.TCustomer" >
+    update t_customer
+    set cname = #{cname,jdbcType=VARCHAR},
+      ctel = #{ctel,jdbcType=VARCHAR},
+      cdesc = #{cdesc,jdbcType=VARCHAR},
+      ccre = #{ccre,jdbcType=TIMESTAMP},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      cnation = #{cnation,jdbcType=VARCHAR},
+      caddress = #{caddress,jdbcType=VARCHAR},
+      cemail = #{cemail,jdbcType=VARCHAR},
+      cincome = #{cincome,jdbcType=VARCHAR},
+      ctype = #{ctype,jdbcType=VARCHAR},
+      cempnumber = #{cempnumber,jdbcType=INTEGER},
+      cstatus = #{cstatus,jdbcType=CHAR}
+    where cno = #{cno,jdbcType=INTEGER}
+  </update>
+</mapper>

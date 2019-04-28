@@ -16,6 +16,9 @@ public class ResultVo {
                 '}';
     }
 
+    public ResultVo() {
+    }
+
     public ResultVo(int code, String msg, long count, Object data) {
         this.code = code;
         this.msg = msg;

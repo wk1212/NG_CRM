@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ngcrm.mapper.TChanceMapper" >
+  <resultMap id="BaseResultMap" type="com.ngcrm.model.TChance" >
+    <id column="chno" property="chno" jdbcType="BIGINT" />
+    <result column="chsource" property="chsource" jdbcType="VARCHAR" />
+    <result column="chcustname" property="chcustname" jdbcType="VARCHAR" />
+    <result column="chtitle" property="chtitle" jdbcType="VARCHAR" />
+    <result column="chrate" property="chrate" jdbcType="INTEGER" />
+    <result column="chlinkman" property="chlinkman" jdbcType="VARCHAR" />
+    <result column="chtel" property="chtel" jdbcType="VARCHAR" />
+    <result column="chdesc" property="chdesc" jdbcType="VARCHAR" />
+    <result column="chcreateid" property="chcreateid" jdbcType="INTEGER" />
+    <result column="chcreateby" property="chcreateby" jdbcType="VARCHAR" />
+    <result column="chcreatedate" property="chcreatedate" jdbcType="TIMESTAMP" />
+    <result column="chdueid" property="chdueid" jdbcType="INTEGER" />
+    <result column="chdueto" property="chdueto" jdbcType="VARCHAR" />
+    <result column="chduedate" property="chduedate" jdbcType="TIMESTAMP" />
+    <result column="chstatus" property="chstatus" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    chno, chsource, chcustname, chtitle, chrate, chlinkman, chtel, chdesc, chcreateid, 
+    chcreateby, chcreatedate, chdueid, chdueto, chduedate, chstatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ngcrm.model.TChanceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_chance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_chance
+    where chno = #{chno,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_chance
+    where chno = #{chno,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ngcrm.model.TChanceExample" >
+    delete from t_chance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ngcrm.model.TChance" >
+    insert into t_chance (chno, chsource, chcustname, 
+      chtitle, chrate, chlinkman, 
+      chtel, chdesc, chcreateid, 
+      chcreateby, chcreatedate, chdueid, 
+      chdueto, chduedate, chstatus
+      )
+    values (#{chno,jdbcType=BIGINT}, #{chsource,jdbcType=VARCHAR}, #{chcustname,jdbcType=VARCHAR}, 
+      #{chtitle,jdbcType=VARCHAR}, #{chrate,jdbcType=INTEGER}, #{chlinkman,jdbcType=VARCHAR}, 
+      #{chtel,jdbcType=VARCHAR}, #{chdesc,jdbcType=VARCHAR}, #{chcreateid,jdbcType=INTEGER}, 
+      #{chcreateby,jdbcType=VARCHAR}, #{chcreatedate,jdbcType=TIMESTAMP}, #{chdueid,jdbcType=INTEGER}, 
+      #{chdueto,jdbcType=VARCHAR}, #{chduedate,jdbcType=TIMESTAMP}, #{chstatus,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ngcrm.model.TChance" >
+    insert into t_chance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chno != null" >
+        chno,
+      </if>
+      <if test="chsource != null" >
+        chsource,
+      </if>
+      <if test="chcustname != null" >
+        chcustname,
+      </if>
+      <if test="chtitle != null" >
+        chtitle,
+      </if>
+      <if test="chrate != null" >
+        chrate,
+      </if>
+      <if test="chlinkman != null" >
+        chlinkman,
+      </if>
+      <if test="chtel != null" >
+        chtel,
+      </if>
+      <if test="chdesc != null" >
+        chdesc,
+      </if>
+      <if test="chcreateid != null" >
+        chcreateid,
+      </if>
+      <if test="chcreateby != null" >
+        chcreateby,
+      </if>
+      <if test="chcreatedate != null" >
+        chcreatedate,
+      </if>
+      <if test="chdueid != null" >
+        chdueid,
+      </if>
+      <if test="chdueto != null" >
+        chdueto,
+      </if>
+      <if test="chduedate != null" >
+        chduedate,
+      </if>
+      <if test="chstatus != null" >
+        chstatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chno != null" >
+        #{chno,jdbcType=BIGINT},
+      </if>
+      <if test="chsource != null" >
+        #{chsource,jdbcType=VARCHAR},
+      </if>
+      <if test="chcustname != null" >
+        #{chcustname,jdbcType=VARCHAR},
+      </if>
+      <if test="chtitle != null" >
+        #{chtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="chrate != null" >
+        #{chrate,jdbcType=INTEGER},
+      </if>
+      <if test="chlinkman != null" >
+        #{chlinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="chtel != null" >
+        #{chtel,jdbcType=VARCHAR},
+      </if>
+      <if test="chdesc != null" >
+        #{chdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="chcreateid != null" >
+        #{chcreateid,jdbcType=INTEGER},
+      </if>
+      <if test="chcreateby != null" >
+        #{chcreateby,jdbcType=VARCHAR},
+      </if>
+      <if test="chcreatedate != null" >
+        #{chcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chdueid != null" >
+        #{chdueid,jdbcType=INTEGER},
+      </if>
+      <if test="chdueto != null" >
+        #{chdueto,jdbcType=VARCHAR},
+      </if>
+      <if test="chduedate != null" >
+        #{chduedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chstatus != null" >
+        #{chstatus,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ngcrm.model.TChanceExample" resultType="java.lang.Integer" >
+    select count(*) from t_chance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_chance
+    <set >
+      <if test="record.chno != null" >
+        chno = #{record.chno,jdbcType=BIGINT},
+      </if>
+      <if test="record.chsource != null" >
+        chsource = #{record.chsource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chcustname != null" >
+        chcustname = #{record.chcustname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chtitle != null" >
+        chtitle = #{record.chtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chrate != null" >
+        chrate = #{record.chrate,jdbcType=INTEGER},
+      </if>
+      <if test="record.chlinkman != null" >
+        chlinkman = #{record.chlinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chtel != null" >
+        chtel = #{record.chtel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chdesc != null" >
+        chdesc = #{record.chdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chcreateid != null" >
+        chcreateid = #{record.chcreateid,jdbcType=INTEGER},
+      </if>
+      <if test="record.chcreateby != null" >
+        chcreateby = #{record.chcreateby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chcreatedate != null" >
+        chcreatedate = #{record.chcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.chdueid != null" >
+        chdueid = #{record.chdueid,jdbcType=INTEGER},
+      </if>
+      <if test="record.chdueto != null" >
+        chdueto = #{record.chdueto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chduedate != null" >
+        chduedate = #{record.chduedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.chstatus != null" >
+        chstatus = #{record.chstatus,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_chance
+    set chno = #{record.chno,jdbcType=BIGINT},
+      chsource = #{record.chsource,jdbcType=VARCHAR},
+      chcustname = #{record.chcustname,jdbcType=VARCHAR},
+      chtitle = #{record.chtitle,jdbcType=VARCHAR},
+      chrate = #{record.chrate,jdbcType=INTEGER},
+      chlinkman = #{record.chlinkman,jdbcType=VARCHAR},
+      chtel = #{record.chtel,jdbcType=VARCHAR},
+      chdesc = #{record.chdesc,jdbcType=VARCHAR},
+      chcreateid = #{record.chcreateid,jdbcType=INTEGER},
+      chcreateby = #{record.chcreateby,jdbcType=VARCHAR},
+      chcreatedate = #{record.chcreatedate,jdbcType=TIMESTAMP},
+      chdueid = #{record.chdueid,jdbcType=INTEGER},
+      chdueto = #{record.chdueto,jdbcType=VARCHAR},
+      chduedate = #{record.chduedate,jdbcType=TIMESTAMP},
+      chstatus = #{record.chstatus,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ngcrm.model.TChance" >
+    update t_chance
+    <set >
+      <if test="chsource != null" >
+        chsource = #{chsource,jdbcType=VARCHAR},
+      </if>
+      <if test="chcustname != null" >
+        chcustname = #{chcustname,jdbcType=VARCHAR},
+      </if>
+      <if test="chtitle != null" >
+        chtitle = #{chtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="chrate != null" >
+        chrate = #{chrate,jdbcType=INTEGER},
+      </if>
+      <if test="chlinkman != null" >
+        chlinkman = #{chlinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="chtel != null" >
+        chtel = #{chtel,jdbcType=VARCHAR},
+      </if>
+      <if test="chdesc != null" >
+        chdesc = #{chdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="chcreateid != null" >
+        chcreateid = #{chcreateid,jdbcType=INTEGER},
+      </if>
+      <if test="chcreateby != null" >
+        chcreateby = #{chcreateby,jdbcType=VARCHAR},
+      </if>
+      <if test="chcreatedate != null" >
+        chcreatedate = #{chcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chdueid != null" >
+        chdueid = #{chdueid,jdbcType=INTEGER},
+      </if>
+      <if test="chdueto != null" >
+        chdueto = #{chdueto,jdbcType=VARCHAR},
+      </if>
+      <if test="chduedate != null" >
+        chduedate = #{chduedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chstatus != null" >
+        chstatus = #{chstatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where chno = #{chno,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ngcrm.model.TChance" >
+    update t_chance
+    set chsource = #{chsource,jdbcType=VARCHAR},
+      chcustname = #{chcustname,jdbcType=VARCHAR},
+      chtitle = #{chtitle,jdbcType=VARCHAR},
+      chrate = #{chrate,jdbcType=INTEGER},
+      chlinkman = #{chlinkman,jdbcType=VARCHAR},
+      chtel = #{chtel,jdbcType=VARCHAR},
+      chdesc = #{chdesc,jdbcType=VARCHAR},
+      chcreateid = #{chcreateid,jdbcType=INTEGER},
+      chcreateby = #{chcreateby,jdbcType=VARCHAR},
+      chcreatedate = #{chcreatedate,jdbcType=TIMESTAMP},
+      chdueid = #{chdueid,jdbcType=INTEGER},
+      chdueto = #{chdueto,jdbcType=VARCHAR},
+      chduedate = #{chduedate,jdbcType=TIMESTAMP},
+      chstatus = #{chstatus,jdbcType=CHAR}
+    where chno = #{chno,jdbcType=BIGINT}
+  </update>
+</mapper>

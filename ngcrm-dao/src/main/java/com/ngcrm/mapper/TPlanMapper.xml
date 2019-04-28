@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ngcrm.mapper.TPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.ngcrm.model.TPlan" >
+    <id column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="chid" property="chid" jdbcType="INTEGER" />
+    <result column="pdate" property="pdate" jdbcType="TIMESTAMP" />
+    <result column="ptodo" property="ptodo" jdbcType="VARCHAR" />
+    <result column="presult" property="presult" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pid, chid, pdate, ptodo, presult
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ngcrm.model.TPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_plan
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_plan
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ngcrm.model.TPlanExample" >
+    delete from t_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ngcrm.model.TPlan" >
+    insert into t_plan (pid, chid, pdate, 
+      ptodo, presult)
+    values (#{pid,jdbcType=INTEGER}, #{chid,jdbcType=INTEGER}, #{pdate,jdbcType=TIMESTAMP}, 
+      #{ptodo,jdbcType=VARCHAR}, #{presult,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ngcrm.model.TPlan" >
+    insert into t_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="chid != null" >
+        chid,
+      </if>
+      <if test="pdate != null" >
+        pdate,
+      </if>
+      <if test="ptodo != null" >
+        ptodo,
+      </if>
+      <if test="presult != null" >
+        presult,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="chid != null" >
+        #{chid,jdbcType=INTEGER},
+      </if>
+      <if test="pdate != null" >
+        #{pdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ptodo != null" >
+        #{ptodo,jdbcType=VARCHAR},
+      </if>
+      <if test="presult != null" >
+        #{presult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ngcrm.model.TPlanExample" resultType="java.lang.Integer" >
+    select count(*) from t_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_plan
+    <set >
+      <if test="record.pid != null" >
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.chid != null" >
+        chid = #{record.chid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pdate != null" >
+        pdate = #{record.pdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ptodo != null" >
+        ptodo = #{record.ptodo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.presult != null" >
+        presult = #{record.presult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_plan
+    set pid = #{record.pid,jdbcType=INTEGER},
+      chid = #{record.chid,jdbcType=INTEGER},
+      pdate = #{record.pdate,jdbcType=TIMESTAMP},
+      ptodo = #{record.ptodo,jdbcType=VARCHAR},
+      presult = #{record.presult,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ngcrm.model.TPlan" >
+    update t_plan
+    <set >
+      <if test="chid != null" >
+        chid = #{chid,jdbcType=INTEGER},
+      </if>
+      <if test="pdate != null" >
+        pdate = #{pdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ptodo != null" >
+        ptodo = #{ptodo,jdbcType=VARCHAR},
+      </if>
+      <if test="presult != null" >
+        presult = #{presult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ngcrm.model.TPlan" >
+    update t_plan
+    set chid = #{chid,jdbcType=INTEGER},
+      pdate = #{pdate,jdbcType=TIMESTAMP},
+      ptodo = #{ptodo,jdbcType=VARCHAR},
+      presult = #{presult,jdbcType=VARCHAR}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>

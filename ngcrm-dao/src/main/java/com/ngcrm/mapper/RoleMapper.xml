@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ngcrm.mapper.RoleMapper">
+
+    <select id="queryAllRole" resultType="role">
+        select * from t_role
+    </select>
+    <select id="queryRolePage" resultType="role">
+        select * from t_role
+
+        where   name like "%" #{no}"%" or info like "%" #{no} "%"
+
+        limit #{begin},#{limit}
+
+    </select>
+
+    <select id="queryRoleById" parameterType="java.lang.Integer" resultType="role">
+        select * from t_role where id=#{id}
+    </select>
+    <update id="updateRole" parameterType="role" >
+        update t_role
+
+            <set>
+                <if test="id!=null">
+                    id=#{id},
+                </if>
+                <if test="info!=null">
+                    info=#{info},
+                </if>
+                <if test="name!=null">
+                    name=#{name},
+                </if>
+                <if test="parentId!=null">
+                    parentId=#{parentId},
+                </if>
+            </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete  from  t_role where id=#{id}
+    </delete>
+    <insert id="addRole" parameterType="role" >
+        insert into t_role (id,name,info,parentId) values (#{id},#{name},#{info},#{parentId});
+    </insert>
+    <select id="queryRoleZtree" resultType="ztreeVo">
+          select
+
+          a.id,a.title as name ,
+
+
+           a.parentId as pId,
+
+           true as 'open',
+
+            IF(ra.rid=#{rid},true,false)   as 'checked'
+
+        from t_authority as a  LEFT JOIN
+
+        (SELECT * from t_roleauthority where rid=#{rid})
+
+         as ra on ra.aid=a.id
+  </select>
+
+    <delete id="deleteRoleAuthority" parameterType="java.lang.Integer">
+        delete  from t_roleauthority where rid=#{rid}
+    </delete>
+    <insert id="insertRoleAuthorityShip" >
+        insert into t_roleauthority (rid,aid) values
+
+        <foreach collection="aids" separator="," item="aid">
+            (#{rid},#{aid})
+        </foreach>
+    </insert>
+</mapper>

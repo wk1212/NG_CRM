@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ngcrm.mapper.AuthorityMapper">
+
+    <select id="queryAuthority" resultType="authority">
+        select * from t_authority
+        where
+        aurl like "%" #{no} "%"
+        or title like "%" #{no} "%"
+        or parentId like"%" #{no} "%"
+        or type like"%" #{no} "%"
+        limit #{begin},#{limit}
+    </select>
+    <delete id="deleteAuthority" parameterType="java.lang.Integer">
+        delete  from t_authority where id=#{id}
+    </delete>
+    <select id="queryAllAuthority" resultType="authority">
+        select * from t_authority
+    </select>
+    <insert id="addAuthority" parameterType="authority">
+        insert t_authority (id,aicon,aurl,parentId,title,type)
+        values (#{id},#{aicon},#{aurl},#{parentId},#{title},#{type})
+    </insert>
+    <select id="queryAuthority_count" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from  t_authority where aurl like "%" #{no} "%"
+        or title like "%" #{no} "%"
+        or parentId like"%" #{no} "%"
+        or type like"%" #{no} "%"
+    </select>
+    <select id="queryAuthorityById" parameterType="java.lang.Integer" resultType="Authority">
+        select * from  t_authority where id=#{id}
+    </select>
+    <update id="updateAuthority" parameterType="Authority" >
+        update t_authority
+        <set>
+            <if test="id!=null">
+                id=#{id},
+            </if>
+            <if test="aicon!=null">
+                aicon=#{aicon},
+            </if>
+            <if test="aurl!=null">
+                aurl=#{aurl},
+            </if>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="parentId!=null">
+                parentId=#{parentId},
+            </if>
+            <if test="type!=null">
+                type=#{type},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>
